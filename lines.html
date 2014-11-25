@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <script> 
+            window.onload = function(){
+                var canvas = document.getElementById("myCanvas");
+                var context = canvas.getContext("2d");
+                var startX = canvas.width / 2;
+                var startY = canvas.height / 2;
+                context.lineWidth = 2;
+                context.strokeStyle = "coral"; 
+                context.beginPath();
+                context.moveTo(startX, startY);
+                
+                // draw seven lines n=7
+                for (var n = 0; n < 7; n++) {
+                    var x = Math.floor(Math.random() * (canvas.width - 0) + 0); //Math.random() * (max - min) + min;
+					var y = Math.floor(Math.random() * (canvas.height - 0) + 0);
+
+                    
+					if (n==6){
+						context.lineTo(startX, startY);
+					}else{
+						context.lineTo(x, y);
+					}
+					
+                }
+
+                context.stroke();
+            };
+        </script>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="600" height="600" style="border:1px solid black;background-color:teal;">
+        </canvas>
+    </body>
+</html>
