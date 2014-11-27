@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        window.onload = function() {
+            var canvas = document.getElementById("myCanvas");
+            var context = canvas.getContext("2d");
+            var startX = 150;
+            var startY = 50;
+            var pointsX = [300, 500, 500, 430, 250, 75];
+            var pointsY = [50, 155, 355, 520, 500, 300];
+            context.beginPath();
+            context.moveTo(startX, startY);
+            for (var i = 0; i < pointsX.length + 1; i++) {
+                if (i != pointsX.length) {
+                    context.lineTo(pointsX[i], pointsY[i]);
+                } else {
+                    context.lineTo(startX, startY);
+                }
+            }
+            //context.stroke();
+            context.fillStyle = "green";
+            context.fill();
+        };
+    </script>
+</head>
+
+<body>
+
+    <canvas id="myCanvas" width="600" height="600" style="border:1px solid black;background-color:coral;">
+    </canvas>
+</body>
+
+</html>
