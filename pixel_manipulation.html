@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        window.onload = function() {
+            var canvas = document.getElementById("myCanvas");
+            var context = canvas.getContext("2d");
+            var img1X = 200;
+            var img1Y = 100;
+            var img2X = 50;
+            var img2Y = 40;
+            var middleX = canvas.width / 2 - img1X / 2;
+            var middleY = canvas.height / 2 - img1Y / 2;
+            var imageData1 = context.createImageData(img1X, img1Y);
+            var imageData2 = context.createImageData(img2X, img2Y);
+            var data1 = imageData1.data;
+            var data2 = imageData2.data;
+            for (var i = 0; i < data1.length; i += 4) {
+                data1[i] = 255; //RED
+                data1[i + 1] = 0; //GREEN
+                data1[i + 2] = 0; //BLUE
+                data1[i + 3] = 255;
+            }
+            for (var i = 0; i < data2.length; i += 4) {
+                data2[i] = 0; //RED
+                data2[i + 1] = 255; //GREEN
+                data2[i + 2] = 0; //BLUE
+                data2[i + 3] = 123;
+            }
+            context.putImageData(imageData1, middleX, middleY);
+            context.putImageData(imageData2, middleX, middleY);
+        };
+    </script>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="600" height="250" style="border:1px solid black;">
+    </canvas>
+</body>
+
+</html>
