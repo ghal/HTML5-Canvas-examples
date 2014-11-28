@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html style="width:100%">
+
+<head>
+    <script>
+        window.onload = function() {
+            var canvas = document.getElementById("myCanvas");
+            var context = canvas.getContext("2d");
+            var imageObj1 = new Image();
+            var imageObj2 = new Image();
+
+            imageObj1.src = "img1.png";
+            imageObj2.src = "img2.png";
+            imageObj1.onload = function() {
+                context.drawImage(this, 0, 0);
+
+                imageObj2.onload = function() {
+                    context.drawImage(this, 0, imageObj1.height); //dimiourgei nea eikona katw ap to image1 
+                    //console.log("asd = " + asd);
+                    //console.log(imageObj2.height);
+                    combine(imageObj1, imageObj2);
+                };
+            };
+
+            function combine(image1, image2) {
+                var newimg = context.createImageData(image1.width, image1.height);
+                var img1 = context.getImageData(0, 0, image1.width, image1.height);
+                var img2 = context.getImageData(0, image1.height, image2.width, image2.height);
+                var data1 = img1.data;
+                var data2 = img2.data;
+                var newData = newimg.data;
+                for (var i = 0; i < data1.length || i < data2.length; i += 4) {
+                    newData[i] = (data1[i] + data2[i]) / 2; //R=(R1+R2)/2
+                    newData[i + 1] = (data1[i + 1] + data2[i + 1]) / 2; //G=(G1+G2)/2
+                    newData[i + 2] = (data1[i + 2] + data2[i + 2]) / 2; //R=(B1+B2)/2
+                    newData[i + 3] = (data1[i + 3] + data2[i + 3]) / 2; //A=(A1+A2)/2
+                }
+
+                context.putImageData(newimg, image1.width, image1.height/2);
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="600" height="600" style="border:1px dashed gray;">
+    </canvas>
+</body>
+
+</html>
