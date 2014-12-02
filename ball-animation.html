@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script src="animation.js"></script>
+    <script>
+        window.onload = function() {
+
+            // instantiate new animation object
+            var anim = new Animation("myCanvas");
+            var context = anim.getContext();
+            var canvas = anim.getCanvas();
+
+            anim.setStage(function() {
+                // update
+                var move = Math.sin(this.getTime() / 500) * 0.5 + 0.75;
+                // clear
+                this.clear();
+
+                //draw
+                context.beginPath();
+                context.save();
+                //context.translate(canvas.width / 2, canvas.height / 2);
+                context.translate(move*400, 300);
+
+                console.log(move);
+                context.arc(0, 0, 65, 0, 2 * Math.PI, false);
+                context.restore();
+                context.fillStyle = "teal";
+                context.fill();
+                context.lineWidth = 2;
+                context.strokeStyle = "#555";
+                context.stroke();
+            });
+
+            anim.start();
+        };
+    </script>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="600" height="600" style="border:1px solid black;background-color:coral;"></canvas>
+</body>
+
+</html>
