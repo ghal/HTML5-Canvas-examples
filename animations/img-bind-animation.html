@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script src="animation.js"></script>
+    <script>
+        window.onload = function() {
+
+            // instantiate new animation object
+            var anim = new Animation("myCanvas");
+            var context = anim.getContext();
+            var canvas = anim.getCanvas();
+            var imageObj1 = new Image();
+            var imageObj2 = new Image();
+
+            imageObj1.src = "1.jpg";
+            imageObj2.src = "2.png";
+            imageObj1.onload = function() {
+                imageObj2.onload = function() {
+                    animation();
+                };
+            };
+
+            function animation() {
+                anim.setStage(function() {
+                    // update
+                    var posX = (Math.sin(this.getTime() / 500) + 1) / 2;
+                    var posY = (Math.sin(this.getTime() / 2000) + 1) / 2;
+
+                    // clear
+                    this.clear();
+
+                    //draw
+                    context.drawImage(imageObj1, 0, 0);
+                    context.drawImage(imageObj2, 0, imageObj1.height);
+                    combine(imageObj1, imageObj2, posX, posY);
+                });
+                anim.start();
+            }
+
+            function combine(image1, image2, posX, posY) {
+                var x = image1.width - image2.width;
+                var y = image1.height - image2.height;
+                var newimg = context.createImageData(image2.width, image2.height);
+                var img1 = context.getImageData(posX * x, y * posY, image2.width, image2.height);
+                var img2 = context.getImageData(0, image1.height, image2.width, image2.height);
+                var data1 = img1.data;
+                var data2 = img2.data;
+                var newData = newimg.data;
+                for (var i = 0; i < data1.length && i < data2.length; i += 4) {
+                    newData[i] = (data1[i] + data2[i]) / 2; //R=(R1+R2)/2
+                    newData[i + 1] = (data1[i + 1] + data2[i + 1]) / 2; //G=(G1+G2)/2
+                    newData[i + 2] = (data1[i + 2] + data2[i + 2]) / 2; //R=(B1+B2)/2
+                    newData[i + 3] = 255; //A=(A1+A2)/2
+                    if (data2[i] == 0 && data2[i + 1] == 0 && data2[i + 2] == 0) {
+                        newData[i] = data1[i];
+                        newData[i + 1] = data1[i + 1];
+                        newData[i + 2] = data1[i + 2];
+                    }
+                }
+
+                context.putImageData(newimg, posX * x, y * posY);
+
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="640" height="550" style="border:1px solid black;"></canvas>
+</body>
+
+</html>
